@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DegenSocial - Your Crypto Meme Network</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="new-layout.css">
+    <link rel="stylesheet" href="auth-styles.css">
+    <link rel="stylesheet" href="friends-style.css">
+    <link rel="stylesheet" href="dex-style.css">
+    <link rel="stylesheet" href="auth-modal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Обновленная версия Font Awesome для надежности -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <!-- Auth Modal -->
+    <div class="auth-modal" id="authModal">
+        <div class="auth-container">
+            <h2>Welcome to DegenSocial</h2>
+            <p>The ultimate crypto meme community</p>
+            
+            <div class="auth-form">
+                <input type="text" id="usernameInput" placeholder="Enter your nickname" maxlength="20">
+                
+                <div class="avatar-selection">
+                    <h3>Choose your avatar</h3>
+                    <div class="avatar-grid" id="avatarGrid">
+                        <div class="avatar-option selected">
+                            <img src="img/chat_avatars/avatar1.png" alt="Avatar 1" data-avatar="img/chat_avatars/avatar1.png">
+                        </div>
+                        <div class="avatar-option">
+                            <img src="img/chat_avatars/avatar2.png" alt="Avatar 2" data-avatar="img/chat_avatars/avatar2.png">
+                        </div>
+                        <div class="avatar-option">
+                            <img src="img/chat_avatars/avatar3.png" alt="Avatar 3" data-avatar="img/chat_avatars/avatar3.png">
+                        </div>
+                        <div class="avatar-option">
+                            <img src="img/chat_avatars/avatar4.png" alt="Avatar 4" data-avatar="img/chat_avatars/avatar4.png">
+                        </div>
+                        <div class="avatar-option">
+                            <img src="img/chat_avatars/avatar5.png" alt="Avatar 5" data-avatar="img/chat_avatars/avatar5.png">
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="continueToInfluencers" class="btn-primary">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Influencer Recommendation Modal -->
+    <div class="influencer-modal" id="influencerModal">
+        <div class="influencer-container">
+            <h2>Top Alpha Callers</h2>
+            <p>Follow these top influencers to get the latest alpha</p>
+            <div class="influencer-grid" id="influencerGrid">
+                <div class="influencer-card">
+                    <div class="influencer-avatar">
+                        <img src="img/influencer_avatars/Cented.webp" alt="Influencer 1">
+                    </div>
+                    <div class="influencer-info">
+                        <div class="influencer-name">CryptoKing</div>
+                        <div class="influencer-handle">@CryptoKing</div>
+                    </div>
+                    <button class="snipe-btn" onclick="snipeInfluencer(this)">Follow</button>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-avatar">
+                        <img src="img/influencer_avatars/Danny.webp" alt="Influencer 2">
+                    </div>
+                    <div class="influencer-info">
+                        <div class="influencer-name">DegenDanny</div>
+                        <div class="influencer-handle">@DegenDanny</div>
+                    </div>
+                    <button class="snipe-btn" onclick="snipeInfluencer(this)">Follow</button>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-avatar">
+                        <img src="img/influencer_avatars/Kadenox.webp" alt="Influencer 3">
+                    </div>
+                    <div class="influencer-info">
+                        <div class="influencer-name">Kadenox</div>
+                        <div class="influencer-handle">@KadenoxCrypto</div>
+                    </div>
+                    <button class="snipe-btn" onclick="snipeInfluencer(this)">Follow</button>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-avatar">
+                        <img src="img/influencer_avatars/Kreo.webp" alt="Influencer 4">
+                    </div>
+                    <div class="influencer-info">
+                        <div class="influencer-name">Kreo</div>
+                        <div class="influencer-handle">@KreoAlpha</div>
+                    </div>
+                    <button class="snipe-btn" onclick="snipeInfluencer(this)">Follow</button>
+                </div>
+                
+                <div class="influencer-card">
+                    <div class="influencer-avatar">
+                        <img src="img/influencer_avatars/West.webp" alt="Influencer 5">
+                    </div>
+                    <div class="influencer-info">
+                        <div class="influencer-name">West</div>
+                        <div class="influencer-handle">@WestCrypto</div>
+                    </div>
+                    <button class="snipe-btn" onclick="snipeInfluencer(this)">Follow</button>
+                </div>
+            </div>
+            <button id="finishOnboarding" class="btn-primary">Continue to Feed</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="app-container" id="mainContent">
+        <div class="content-wrapper full-width">
+            <!-- Header moved inside content-wrapper for grid positioning -->
+            <header class="main-header">
+                <div class="header-top-row">
+                    <div class="logo">
+                        <h1>Degen Feed</h1>
+                    </div>
+                    <div class="header-actions">
+                        <a href="https://twitter.com" target="_blank" class="twitter-btn" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <!-- Quick info section with three blocks in a row -->
+                <div class="quick-info">
+                    <span>Hot News: Another Rugpull!</span>
+                    <span>Meme of the Week: ToTheMoon.gif</span>
+                    <span>New Shitcoin: $USELESS</span>
+                </div>
+            </header>
+            <!-- Left Sidebar -->
+            <aside class="sidebar left-sidebar">
+                <!-- User profile data without card -->
+                <div class="profile-section" id="userProfileSection">
+                    <h3 class="profile-title">My Profile</h3>
+                    <!-- User profile content without card container -->
+                    <div class="profile-content">
+                        <div class="profile-avatar">
+                            <!-- Avatar will be loaded here -->
+                        </div>
+                        <div class="profile-info">
+                            <h4 class="profile-name">Username</h4>
+                            <p class="profile-status">Status: Degen</p>
+                            <div class="profile-stats-container">
+                                <div class="profile-stats">
+                                    <div>Snipes:</div>
+                                    <span>0</span>
+                                </div>
+                                <div class="profile-stats">
+                                    <div>Held Token:</div>
+                                    <span>$DUMMY</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Разделитель между блоками -->
+                <div class="block-separator"></div>
+
+                <!-- Token tracker с актуальными мемкоинами Solana -->
+                <div class="token-tracker expanded">
+                    <div class="token-header">
+                        <h3>Hot Solana Tokens 🔥</h3>
+                        <button id="refreshTokens" class="refresh-button" title="Обновить цены токенов">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="token-list" id="tokenList">
+                        <!-- Актуальные мемкоины Solana 2025 -->
+                        <div class="token-item">
+                            <span class="token-name">$WIF</span>
+                            <span class="token-price">$2.05</span>
+                            <span class="token-change negative">-15.2%</span>
+                            <span class="token-mcap">$2.05B</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$POP</span>
+                            <span class="token-price">$1.30</span>
+                            <span class="token-change negative">-14.2%</span>
+                            <span class="token-mcap">$1.28B</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$BONK</span>
+                            <span class="token-price">$0.00001789</span>
+                            <span class="token-change negative">-13.3%</span>
+                            <span class="token-mcap">$1.24B</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$MEW</span>
+                            <span class="token-price">$0.008195</span>
+                            <span class="token-change negative">-13.5%</span>
+                            <span class="token-mcap">$729M</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$GIGA</span>
+                            <span class="token-price">$0.06345</span>
+                            <span class="token-change positive">+14.2%</span>
+                            <span class="token-mcap">$609M</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$GOAT</span>
+                            <span class="token-price">$0.5055</span>
+                            <span class="token-change negative">-13.2%</span>
+                            <span class="token-mcap">$505M</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$BOME</span>
+                            <span class="token-price">$0.007158</span>
+                            <span class="token-change negative">-13.6%</span>
+                            <span class="token-mcap">$493M</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$FWOG</span>
+                            <span class="token-price">$0.3094</span>
+                            <span class="token-change positive">+41.9%</span>
+                            <span class="token-mcap">$302M</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$PONKE</span>
+                            <span class="token-price">$0.4609</span>
+                            <span class="token-change positive">+3.9%</span>
+                            <span class="token-mcap">$254M</span>
+                        </div>
+                        <div class="token-item">
+                            <span class="token-name">$MICHI</span>
+                            <span class="token-price">$0.3418</span>
+                            <span class="token-change positive">+36.1%</span>
+                            <span class="token-mcap">$189M</span>
+                        </div>
+                    </div>
+                    <div class="token-data-source">
+                        <span>Data updated on May 19, 2025</span>
+                    </div>
+                </div>
+                
+                <!-- Online friends moved fully left with expanded content -->
+                <div class="online-friends expanded">
+                    <h3>Friends Online 🟢</h3>
+                    <div class="friends-list" id="friendsList">
+                        <!-- Friends with avatars from img/chat_avatars -->
+                        <div class="friend-item">
+                            <img src="img/chat_avatars/avatar1.png" alt="Friend 1">
+                            <span class="friend-name">CryptoKing</span>
+                        </div>
+                        <div class="friend-item">
+                            <img src="img/chat_avatars/avatar2.png" alt="Friend 2">
+                            <span class="friend-name">NewsBot</span>
+                        </div>
+                        <div class="friend-item">
+                            <img src="img/chat_avatars/avatar3.png" alt="Friend 3">
+                            <span class="friend-name">RugPullDetective</span>
+                        </div>
+                        <div class="friend-item">
+                            <img src="img/chat_avatars/avatar4.png" alt="Friend 4">
+                            <span class="friend-name">TokenAnalyst</span>
+                        </div>
+                        <div class="friend-item">
+                            <img src="img/chat_avatars/avatar5.png" alt="Friend 5">
+                            <span class="friend-name">SolanaWhale</span>
+                        </div>
+                        <div class="friend-item">
+                            <img src="img/chat_avatars/avatar6.jpg" alt="Friend 6">
+                            <span class="friend-name">MoonBoy</span>
+                        </div>
+                        <div class="friend-item">
+                            <img src="img/chat_avatars/avatar7.jpg" alt="Friend 7">
+                            <span class="friend-name">CryptoInsider</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Mobile Navigation Buttons -->
+            <div class="mobile-menu-buttons show-on-mobile">
+                <button class="btn-secondary" id="toggleLeftSidebar">
+                    <i class="fas fa-bars"></i> Menu
+                </button>
+                <button class="btn-secondary" id="toggleRightSidebar">
+                    <i class="fas fa-comments"></i> Chat
+                </button>
+            </div>
+
+            <!-- Main Feed -->
+            <main class="main-feed expanded">
+                <!-- Post composer -->
+                <div class="post-composer">
+                    <div class="composer-avatar" id="composerAvatar">
+                        <!-- User avatar will be loaded here -->
+                    </div>
+                    <div class="composer-input">
+                        <textarea id="postContent" placeholder="Share some alpha with the degens..."></textarea>
+                        <button id="postButton" class="btn-primary">Post</button>
+                    </div>
+                </div>
+
+                <!-- Feed filters -->
+                <div class="feed-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="hot">🔥 Hot</button>
+                    <button class="filter-btn" data-filter="memes">Memes</button>
+                    <button class="filter-btn" data-filter="alpha">Alpha</button>
+                </div>
+
+                <!-- Feed content -->
+                <div class="feed-content" id="feedContent">
+                    <!-- Example feed item -->
+                    <div class="feed-item">
+                        <div class="feed-item-avatar">
+                            <img src="assets/avatars/avatar4.png" alt="User Avatar">
+                        </div>
+                        <div class="feed-item-content">
+                            <div class="feed-item-header">
+                                <span class="feed-item-username">CryptoBroMax</span>
+                                <span class="feed-item-time">2 hours ago</span>
+                            </div>
+                            <p>Just aped into $NEWCOIN, 1000x potential easy! #DYOR #NotFinancialAdvice</p>
+                            <img src="assets/memes/meme1.jpg" alt="Meme" class="feed-item-image">
+                            <div class="feed-item-actions">
+                                <a href="#">Like</a>
+                                <a href="#">Comment</a>
+                                <a href="#">Share</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Example feed item -->
+                    <div class="feed-item">
+                        <div class="feed-item-avatar">
+                            <img src="assets/avatars/avatar5.png" alt="User Avatar">
+                        </div>
+                        <div class="feed-item-content">
+                            <div class="feed-item-header">
+                                <span class="feed-item-username">NewsBot</span>
+                                <span class="feed-item-time">4 hours ago</span>
+                            </div>
+                            <p>BREAKING: $OLDCOIN drops 90% after founder vanishes.</p>
+                            <div class="feed-item-actions">
+                                <a href="#">Like</a>
+                                <a href="#">Comment</a>
+                                <a href="#">Share</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="sidebar right-sidebar expanded">
+                <!-- Chat section with its own scrollable area -->
+                <div class="sidebar-block chat-container">
+                    <div class="block-header">
+                        <h3>Degen Live Chat</h3>
+                        <span class="online-count">10 online</span>
+                    </div>
+                    <div class="chat-messages-wrapper">
+                        <div class="chat-messages" id="chatMessages">
+                        <!-- Мемные сообщения о криптовалютах -->
+                        <div class="chat-message">
+                            <div class="message-bubble">
+                                <div class="message-sender">SolGod_420</div>
+                                <div class="message-content">GM frens! $BONK just pumped 69% overnight! Solana ecosystem going crazy rn 🚀🔥</div>
+                                <div class="message-time">10:30 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="message-bubble">
+                                <div class="message-sender">MoonBoi_69</div>
+                                <div class="message-content">$PEPE still holding strong! Memecoin season never ended 🐸💰</div>
+                                <div class="message-time">10:32 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="message-bubble">
+                                <div class="message-sender">WojackLover_2025</div>
+                                <div class="message-content">Just aped into $TURBO on Solana. 100x or food stamps, no in between 🤡</div>
+                                <div class="message-time">10:33 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="message-bubble">
+                                <div class="message-sender">Degen_Ape.sol</div>
+                                <div class="message-content">Anyone got alpha on the next Solana meme? $BONK and $BOME already made me rich 💎</div>
+                                <div class="message-time">10:35 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="message-bubble">
+                                <div class="message-sender">CatGirl.eth</div>
+                                <div class="message-content">ETH maxis crying while SOL hits new ATH every day lmaooo 📈</div>
+                                <div class="message-time">10:36 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="message-bubble">
+                                <div class="message-sender">NGMI_trader</div>
+                                <div class="message-content">Sold my $POPCAT too early and missed 500% gains. I belong here 🤦‍♂️</div>
+                                <div class="message-time">10:38 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-message">
+                            <div class="message-bubble">
+                                <div class="message-sender">Pump_Chaser</div>
+                                <div class="message-content">$BOOK token launching in 5 minutes on Raydium! Who's apeing? 🦍</div>
+                                <div class="message-time">10:40 AM</div>
+                            </div>
+                        </div>
+                        <div class="chat-message message-outgoing">
+                            <div class="message-bubble">
+                                <div class="message-content">Just mortgaged my house to buy more $BONK. This is the way 🏠💸</div>
+                                <div class="message-time">10:42 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                    </div> <!-- Закрытие chat-messages-wrapper -->
+                    <div class="chat-input-container">
+                        <input type="text" id="chatInput" placeholder="Type your degen thoughts..." class="chat-input">
+                        <button id="sendMessage" class="send-button"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+
+                <!-- DEX links и лаунчпады с актуальными платформами на Solana -->
+                <div class="sidebar-block dex-links-container">
+                    <div class="block-header">
+                        <h3>Solana Launchpads & DEXs</h3>
+                        <span class="block-subtitle">Trade & Launch</span>
+                    </div>
+                    <div class="dex-buttons">
+                        <!-- Топ-5 DEX на Solana 2025 -->
+                        <a href="https://orca.so" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/orca.svg" alt="Orca">
+                            <span>Orca</span>
+                            <div class="dex-info">24h: $634.5M</div>
+                        </a>
+                        <a href="https://meteora.ag" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/meteora.svg" alt="Meteora">
+                            <span>Meteora</span>
+                            <div class="dex-info">24h: $382.3M</div>
+                        </a>
+                        <a href="https://raydium.io/clmm" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/raydium.svg" alt="Raydium CLMM">
+                            <span>Raydium CLMM</span>
+                            <div class="dex-info">24h: $237.6M</div>
+                        </a>
+                        <a href="https://phoenix.trade" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/phoenix.svg" alt="Phoenix">
+                            <span>Phoenix</span>
+                            <div class="dex-info">24h: $206.1M</div>
+                        </a>
+                        <a href="https://raydium.io" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/raydium.svg" alt="Raydium">
+                            <span>Raydium</span>
+                            <div class="dex-info">24h: $148.4M</div>
+                        </a>
+                        
+                        <!-- Популярные лаунчпады и инструменты -->
+                        <a href="https://app.jupiter.exchange" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/jupiter.svg" alt="Jupiter">
+                            <span>Jupiter</span>
+                            <div class="dex-info">Aggregator</div>
+                        </a>
+                        <a href="https://dexscreener.com/solana" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/dexscreener.svg" alt="DexScreener">
+                            <span>DexScreener</span>
+                            <div class="dex-info">Analytics</div>
+                        </a>
+                        <a href="https://solscan.io" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/solscan.svg" alt="Solscan">
+                            <span>Solscan</span>
+                            <div class="dex-info">Explorer</div>
+                        </a>
+                        <a href="https://kamino.finance" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/kamino.svg" alt="Kamino">
+                            <span>Kamino</span>
+                            <div class="dex-info">Yield</div>
+                        </a>
+                        <a href="https://www.tensor.trade" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/tensor.svg" alt="Tensor">
+                            <span>Tensor</span>
+                            <div class="dex-info">NFT Market</div>
+                        </a>
+                        <a href="https://magiceden.io" target="_blank" class="dex-btn">
+                            <img src="img/dex_icons/magiceden.svg" alt="Magic Eden">
+                            <span>Magic Eden</span>
+                            <div class="dex-info">NFT Market</div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Trending box moved to bottom of right sidebar -->
+                <div class="trending-box">
+                    <h3>Trending Now</h3>
+                    <div class="trending-items" id="trendingItems">
+                        <!-- Example trending items -->
+                        <div class="trending-item">
+                            <span class="trending-tag">#MEMECOIN</span>
+                            <span class="trending-count">1.2K posts</span>
+                        </div>
+                        <div class="trending-item">
+                            <span class="trending-tag">#RUGPULL</span>
+                            <span class="trending-count">845 posts</span>
+                        </div>
+                        <div class="trending-item">
+                            <span class="trending-tag">#TOTHEMOON</span>
+                            <span class="trending-count">623 posts</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script src="buttons.js"></script>
+    <script src="app.js"></script>
+    <script src="mobile-menu.js"></script>
+    <script src="influencer-modal.js"></script>
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script src="livechat.js"></script>
+    <script src="feed.js"></script>
+    <script src="post-handler.js"></script>
+    <script src="auth-modal.js"></script>
+</body>
+</html>
